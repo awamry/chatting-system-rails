@@ -1,0 +1,12 @@
+development:
+  host: localhost
+  port: 6379
+  db: 0
+production:
+  host: <%= ENV.fetch("REDIS_HOST") { 'redis' } %>
+  port: <%= ENV.fetch("REDIS_PORT") { 6379 } %>
+  db: <%= ENV.fetch("REDIS_DB") { 0 } %>
+test:
+  host: fake
+  port: redis
+  db: 0
