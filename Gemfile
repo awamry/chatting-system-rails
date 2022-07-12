@@ -42,6 +42,7 @@ gem 'redis-namespace'
 
 gem 'active_model_serializers'
 gem 'will_paginate'
+gem 'elasticsearch-model'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -61,6 +62,7 @@ group :test do
   gem 'database_cleaner'
   gem "sqlite3"
   gem 'fakeredis', :require => "fakeredis/rspec"
+  gem 'webmock'
 
 end
 
