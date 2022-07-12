@@ -43,7 +43,7 @@ RSpec.describe 'Applications API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/No record exists with given parameters/)
+        expect(response.body).to match(/No Application record exists with given parameter/)
       end
     end
   end

@@ -3,8 +3,8 @@ module ExceptionHandler
   extend ActiveSupport::Concern
 
   included do
-    rescue_from ActiveRecord::RecordNotFound do
-      json_response({ message: "No record exists with given parameters" }, :not_found)
+    rescue_from ActiveRecord::RecordNotFound do |e|
+      json_response({ message: "No #{e.model} record exists with given parameter" }, :not_found)
     end
 
     rescue_from ActiveRecord::RecordInvalid do |e|
