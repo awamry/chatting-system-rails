@@ -10,6 +10,7 @@ class ApplicationsController < ApplicationController
   # POST /applications
   def create
     @application = ApplicationModelCreator.create(application_params)
+    @application.save!
     json_response({name: @application.name, token: @application.token}, :created)
   end
 

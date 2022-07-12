@@ -59,6 +59,7 @@ RSpec.describe 'Applications API', type: :request do
       it 'creates a application' do
         expect(json['name']).to eq('New Application')
         expect(json['token']).not_to be_empty
+        expect(json['id']).to eq(nil)
       end
 
       it 'returns status code 201' do
