@@ -4,7 +4,7 @@ class ChatsController < ApplicationController
 
   # GET /applications/:application_token/chats
   def index
-    json_response(@application.chats)
+    json_response(@application.chats.paginate(page: params[:page], per_page: 20))
   end
 
   # GET /applications/:application_token/chats/:number

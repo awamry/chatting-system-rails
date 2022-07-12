@@ -3,7 +3,7 @@ class ApplicationsController < ApplicationController
 
   # GET /applications
   def index
-    @applications = Application.all
+    @applications = Application.paginate(page: params[:page], per_page: 20)
     json_response(@applications)
   end
 
