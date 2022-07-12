@@ -48,6 +48,6 @@ class MessagesController < ApplicationController
 
   def message_params
     # whitelist params
-    params.permit(:content)
+    params.permit(:body)
   end
 end

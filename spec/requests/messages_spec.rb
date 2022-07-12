@@ -65,7 +65,7 @@ RSpec.describe 'Messages API', type: :request do
 
   # Test suite for POST /applications/:application_token/chats/:chat_number/messages
   describe 'POST /applications/:application_token/chats/:chat_number/messages' do
-    let(:valid_attributes) { { } }
+    let(:valid_attributes) { {body: 'Message body'} }
 
     context 'when request attributes are valid' do
       before { post "/applications/#{application_token}/chats/#{chat_number}/messages", params: valid_attributes }
@@ -79,7 +79,7 @@ RSpec.describe 'Messages API', type: :request do
 
   # Test suite for PUT /applications/:application_token/chats/:chat_number/messages/:number
   describe 'PUT /applications/:application_token/chats/:chat_number/messages/:number' do
-    let(:valid_attributes) { { content: 'New content' } }
+    let(:valid_attributes) { { body: 'New body' } }
 
     context 'when the record exists' do
       before { put "/applications/#{application_token}/chats/#{chat_number}/messages/#{number}", params: valid_attributes }
