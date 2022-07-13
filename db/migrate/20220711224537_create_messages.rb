@@ -8,7 +8,7 @@ class CreateMessages < ActiveRecord::Migration[7.0]
       t.timestamps
 
     end
-    add_index :messages, [:chat_id, :number]
+    add_index :messages, [:chat_id, :number], :unique => true, :name => 'UK_MESSAGES_CHAT_ID_NUMBER'
 
   end
 end

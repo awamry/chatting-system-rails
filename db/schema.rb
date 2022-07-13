@@ -26,7 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_11_224537) do
     t.bigint "application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["application_id", "number"], name: "index_chats_on_application_id_and_number"
+    t.index ["application_id", "number"], name: "UK_CHATS_APPLICATION_ID_NUMBER", unique: true
     t.index ["application_id"], name: "index_chats_on_application_id"
   end
 
@@ -36,7 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_11_224537) do
     t.bigint "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["chat_id", "number"], name: "index_messages_on_chat_id_and_number"
+    t.index ["chat_id", "number"], name: "UK_MESSAGES_CHAT_ID_NUMBER", unique: true
     t.index ["chat_id"], name: "index_messages_on_chat_id"
   end
 

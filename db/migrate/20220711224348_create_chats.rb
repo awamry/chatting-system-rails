@@ -7,6 +7,6 @@ class CreateChats < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :chats, [:application_id, :number]
+    add_index :chats, [:application_id, :number], :unique => true, :name => 'UK_CHATS_APPLICATION_ID_NUMBER'
   end
 end
