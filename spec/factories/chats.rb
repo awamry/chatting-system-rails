@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :chat do
-    number { Faker::Number.number(digits: 3) }
+    number { Faker::Number.number(digits: 15) }
     messages_count { Faker::Number.number(digits: 3) }
     application_id { nil }
   end
