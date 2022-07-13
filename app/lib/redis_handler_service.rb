@@ -86,7 +86,14 @@ class RedisHandlerService
     $namespaced_redis.keys("#{MESSAGES_COUNT_KEY}:*")
   end
 
+  def self.set_is_flushed_to_db(key)
+    $namespaced_redis.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'true')
+  end
   def self.get_hash_values(key)
     $namespaced_redis.hmget(key, HASH_VALUE_KEY, HASH_EXPIRATION_DATE_KEY, HASH_IS_FLUSHED_TO_DB_KEY)
+  end
+
+  def self.delete(key)
+    $namespaced_redis.del(key)
   end
 end
