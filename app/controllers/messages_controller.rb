@@ -29,7 +29,7 @@ class MessagesController < ApplicationController
   def create
     # TODO publish to RabbitMQ queue
     # TODO incr messages_count in (redis || worker)
-    json_response({ number: RedisService.get_message_number(@chat.number, @application.token) }, :created)
+    json_response({ number: RedisHandlerService.get_message_number(@chat.id) }, :created)
   end
 
   # DELETE /applications/:application_token/chats/:chat_number/messages/:number
