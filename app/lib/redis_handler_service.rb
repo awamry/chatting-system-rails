@@ -48,11 +48,18 @@ class RedisHandlerService
         connection.hmset(
           key,
           HASH_VALUE_KEY, chats_count,
-          HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60),
+          HASH_EXPIRATION_DATE_KEY, Time.now.to_i + 120,
           HASH_IS_FLUSHED_TO_DB_KEY, 'false'
         )
       end
       return chats_count
+    end
+  end
+
+  def self.decrement_chats_count(application_id)
+    key = "#{CHATS_COUNT_KEY}:#{application_id}"
+    if key_exists?(key)
+      update_hash(key, -1)
     end
   end
 
@@ -71,7 +78,7 @@ class RedisHandlerService
           connection.hmset(
             key,
             HASH_VALUE_KEY, messages_count,
-            HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60),
+            HASH_EXPIRATION_DATE_KEY, Time.now.to_i +  120,
             HASH_IS_FLUSHED_TO_DB_KEY, 'false'
           )
         end
@@ -80,11 +87,18 @@ class RedisHandlerService
     end
   end
 
-  def self.update_hash(key)
+  def self.decrement_messages_count(chat_id)
+    key = "#{MESSAGES_COUNT_KEY}:#{chat_id}"
+    if key_exists?(key)
+      update_hash(key, -1)
+    end
+  end
+
+  def self.update_hash(key, increment_value = 1)
     REDIS.with do |connection|
       connection.multi do |multi|
-        multi.hincrby(key, HASH_VALUE_KEY, 1)
-        multi.hset(key, HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60))
+        multi.hincrby(key, HASH_VALUE_KEY, increment_value)
+        multi.hset(key, HASH_EXPIRATION_DATE_KEY, Time.now.to_i + 120)
         multi.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'false')
       end
     end

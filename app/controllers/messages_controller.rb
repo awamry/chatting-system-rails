@@ -35,8 +35,8 @@ class MessagesController < ApplicationController
 
   # DELETE /applications/:application_token/chats/:chat_number/messages/:number
   def destroy
-    #TODO decrement messages_count for this chat
     @message.destroy
+    RedisHandlerService.decrement_messages_count(@message.chat_id)
     head :no_content
   end
 
