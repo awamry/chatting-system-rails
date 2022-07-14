@@ -37,5 +37,7 @@ module ChattingSystemRails
     config.api_only = true
 
     config.redis = config_for(:redis)
+
+    config.rabbitmq = config_for(:rabbitmq)
   end
 end
