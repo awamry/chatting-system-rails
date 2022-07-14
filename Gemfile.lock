@@ -80,6 +80,8 @@ GEM
     bunny (2.19.0)
       amq-protocol (~> 2.3, >= 2.3.1)
       sorted_set (~> 1, >= 1.0.2)
+    bunny-mock (1.7.0)
+      bunny (>= 1.7)
     case_transform (0.2)
       activesupport
     chronic (0.10.2)
@@ -283,6 +285,7 @@ DEPENDENCIES
   active_model_serializers
   bootsnap
   bunny
+  bunny-mock
   connection_pool
   database_cleaner
   debug

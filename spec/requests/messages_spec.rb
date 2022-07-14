@@ -65,12 +65,19 @@ RSpec.describe 'Messages API', type: :request do
 
   # Test suite for POST /applications/:application_token/chats/:chat_number/messages
   describe 'POST /applications/:application_token/chats/:chat_number/messages' do
-    let(:valid_attributes) { {body: 'Message body'} }
+    let(:valid_attributes) { {body: 'Message body'}.to_json }
 
     context 'when request attributes are valid' do
       before { post "/applications/#{application_token}/chats/#{chat_number}/messages", params: valid_attributes }
 
       it 'returns status code 201' do
+        BUNNY.with do |connection|
+          connection.start
+          channel = connection.create_channel
+          expect(connection.exchange_exists?("chatting_system")).to be_truthy
+          expect(connection.queue_exists?("messages")).to be_truthy
+          expect(channel.queue("messages").message_count).to eq(1)
+        end
         expect(response).to have_http_status(201)
       end
     end

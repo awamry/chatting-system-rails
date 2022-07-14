@@ -69,6 +69,7 @@ group :test do
   gem "sqlite3"
   gem 'fakeredis', :require => "fakeredis/rspec"
   gem 'webmock'
+  gem 'bunny-mock'
 
 end
 
