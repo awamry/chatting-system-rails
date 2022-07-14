@@ -8,15 +8,21 @@ class RedisHandlerService
   HASH_IS_FLUSHED_TO_DB_KEY = 'is_flushed_to_db'
 
   def self.set(key, value)
-    $namespaced_redis.set(key, value)
+    REDIS.with do |connection|
+      connection.set(key, value)
+    end
   end
 
   def self.increment(key)
-    $namespaced_redis.incr(key)
+    REDIS.with do |connection|
+      connection.incr(key)
+    end
   end
 
   def self.key_exists?(key)
-    $namespaced_redis.exists?(key)
+    REDIS.with do |connection|
+      connection.exists?(key)
+    end
   end
 
   def self.get_chat_number(application_id)
@@ -38,62 +44,79 @@ class RedisHandlerService
         result = update_hash(key)
         return result[0]
       end
-      $namespaced_redis.hmset(
-        "#{CHATS_COUNT_KEY}:#{application_id}", HASH_VALUE_KEY,
-        chats_count + 1, HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60),
-        HASH_IS_FLUSHED_TO_DB_KEY, 'false'
-      )
-      return chats_count + 1
+      REDIS.with do |connection|
+        connection.hmset(
+          key,
+          HASH_VALUE_KEY, chats_count,
+          HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60),
+          HASH_IS_FLUSHED_TO_DB_KEY, 'false'
+        )
+      end
+      return chats_count
     end
   end
 
   def self.increment_messages_count(chat_id)
     key = "#{MESSAGES_COUNT_KEY}:#{chat_id}"
     if key_exists?(key)
-      $namespaced_redis.multi do |multi|
-        result = update_hash(key)
-        return result[0]
-      end
+      result = update_hash(key)
+      return result[0]
     else
       messages_count = Chat.find(chat_id).messages.size
       if key_exists?(key)
         result = update_hash(key)
         return result[0]
       else
-        $namespaced_redis.hmset(
-          "#{MESSAGES_COUNT_KEY}:#{chat_id}", HASH_VALUE_KEY,
-          chats_count + 1, HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60),
-          HASH_IS_FLUSHED_TO_DB_KEY, 'false'
-        )
-        return messages_count + 1
+        REDIS.with do |connection|
+          connection.hmset(
+            key,
+            HASH_VALUE_KEY, messages_count,
+            HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60),
+            HASH_IS_FLUSHED_TO_DB_KEY, 'false'
+          )
+        end
+        return messages_count
       end
     end
   end
 
   def self.update_hash(key)
-    $namespaced_redis.multi do |multi|
-      multi.hincrby(key, HASH_VALUE_KEY, 1)
-      multi.hset(key, HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60))
-      multi.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'false')
+    REDIS.with do |connection|
+      connection.multi do |multi|
+        multi.hincrby(key, HASH_VALUE_KEY, 1)
+        multi.hset(key, HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60))
+        multi.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'false')
+      end
     end
   end
 
   def self.get_chats_count_keys
-    $namespaced_redis.keys("#{CHATS_COUNT_KEY}:*")
+    REDIS.with do |connection|
+      connection.keys("#{CHATS_COUNT_KEY}:*")
+    end
   end
 
   def self.get_messages_count_keys
-    $namespaced_redis.keys("#{MESSAGES_COUNT_KEY}:*")
+    REDIS.with do |connection|
+      connection.keys("#{MESSAGES_COUNT_KEY}:*")
+    end
   end
 
   def self.set_is_flushed_to_db(key)
-    $namespaced_redis.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'true')
+    REDIS.with do |connection|
+      connection.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'true')
+    end
   end
+
   def self.get_hash_values(key)
-    $namespaced_redis.hmget(key, HASH_VALUE_KEY, HASH_EXPIRATION_DATE_KEY, HASH_IS_FLUSHED_TO_DB_KEY)
+    REDIS.with do |connection|
+      connection.hmget(key, HASH_VALUE_KEY, HASH_EXPIRATION_DATE_KEY, HASH_IS_FLUSHED_TO_DB_KEY)
+    end
   end
 
   def self.delete(key)
-    $namespaced_redis.del(key)
+    REDIS.with do |connection|
+      connection.del(key)
+    end
   end
 end
