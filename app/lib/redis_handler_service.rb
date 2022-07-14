@@ -48,7 +48,7 @@ class RedisHandlerService
         connection.hmset(
           key,
           HASH_VALUE_KEY, chats_count,
-          HASH_EXPIRATION_DATE_KEY, Time.now.to_i + 120,
+          HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60),
           HASH_IS_FLUSHED_TO_DB_KEY, 'false'
         )
       end
@@ -78,7 +78,7 @@ class RedisHandlerService
           connection.hmset(
             key,
             HASH_VALUE_KEY, messages_count,
-            HASH_EXPIRATION_DATE_KEY, Time.now.to_i +  120,
+            HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60),
             HASH_IS_FLUSHED_TO_DB_KEY, 'false'
           )
         end
@@ -98,7 +98,7 @@ class RedisHandlerService
     REDIS.with do |connection|
       connection.multi do |multi|
         multi.hincrby(key, HASH_VALUE_KEY, increment_value)
-        multi.hset(key, HASH_EXPIRATION_DATE_KEY, Time.now.to_i + 120)
+        multi.hset(key, HASH_EXPIRATION_DATE_KEY, Time.now.to_i + (3 * 60 * 60))
         multi.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'false')
       end
     end
@@ -118,7 +118,7 @@ class RedisHandlerService
 
   def self.set_is_flushed_to_db(key)
     REDIS.with do |connection|
-      connection.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'true')
+      connection.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'true') if key_exists?(key)
     end
   end
 
