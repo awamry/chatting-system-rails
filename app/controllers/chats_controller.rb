@@ -14,8 +14,6 @@ class ChatsController < ApplicationController
 
   # POST /applications/:application_token/chats
   def create
-    # TODO publish to RabbitMQ queue
-    # TODO incr chats_count in (redis || worker)
     chat_number = RedisHandlerService.get_chat_number(@application.id)
     ChatPublisher.publish({ number: chat_number, application_id: @application.id, messages_count: 0 }.to_json)
     json_response({ number: chat_number }, :created)
@@ -23,6 +21,7 @@ class ChatsController < ApplicationController
 
   # DELETE /applications/:application_token/chats/:number
   def destroy
+    #TODO decrement chats_count for this application
     @chat.destroy
     head :no_content
   end
