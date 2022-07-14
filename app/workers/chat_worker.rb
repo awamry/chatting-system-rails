@@ -1,7 +1,7 @@
 class ChatWorker
   include Sneakers::Worker
   # TODO handle corner cases related to exceptions thrown (UK violation, DB connection failure) and decide whether to ack! or requeue!
-  from_queue "chatting_system_chats"
+  from_queue "chats"
   def work(message)
     chat_json = JSON.parse(message)
     ActiveRecord::Base.connection_pool.with_connection do
