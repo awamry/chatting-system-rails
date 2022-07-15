@@ -103,7 +103,7 @@ the API
 that has been created will only match if the query is between 3 (inclusive) to 10 characters (inclusive) in length
 (this is an index configuration, so it could be changed easily to match a greater range of characters but at the cost of index size)
 
-<br><br><br>
+<br><br>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Technology Stack
@@ -217,9 +217,6 @@ You need to have Docker (along with compose extension inside it) installed on yo
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 
-
-[product-screenshot]: images/screenshot.png
-
 [ROR]: https://img.shields.io/badge/rails-%23CC0000.svg?style=for-the-badge&logo=ruby-on-rails&logoColor=white
 
 [ROR-url]: https://rubyonrails.org/
@@ -239,25 +236,3 @@ You need to have Docker (along with compose extension inside it) installed on yo
 [ElasticSearch]: https://img.shields.io/badge/-ElasticSearch-005571?style=for-the-badge&logo=elasticsearch
 
 [ElasticSearch-url]: https://www.elastic.co/
-
-[Vue-url]: https://vuejs.org/
-
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-
-[Angular-url]: https://angular.io/
-
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-
-[Svelte-url]: https://svelte.dev/
-
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-
-[Laravel-url]: https://laravel.com
-
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-
-[Bootstrap-url]: https://getbootstrap.com
-
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-
-[JQuery-url]: https://jquery.com 
