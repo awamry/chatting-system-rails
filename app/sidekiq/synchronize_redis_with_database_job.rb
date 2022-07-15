@@ -1,7 +1,8 @@
-namespace :redis do
-  desc "Flush counts of chats_count and messages_count values from redis to database"
-  task synchronize_counts_with_database: :environment do
-    UPDATE_BATCH_SIZE = 25
+class SynchronizeRedisWithDatabaseJob
+  include Sidekiq::Job
+  UPDATE_BATCH_SIZE = 25
+
+  def perform(*args)
     puts "Synchronization task has started at #{Time.now}"
     synchronize_chats_count
     synchronize_messages_count
