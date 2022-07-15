@@ -21,12 +21,11 @@ class SynchronizeRedisWithDatabaseJob
   end
 
   def synchronize_table(model, column_name, keys)
-    current_timestamp = Time.now.to_i
     records_to_update = []
     keys.each { |key|
       begin
-        count, expiration_date, is_counter_flushed_to_db = RedisHandlerService.get_hash_values(key)
-        next if count.nil? || expiration_date.nil? || is_counter_flushed_to_db.nil?
+        count, is_counter_flushed_to_db = RedisHandlerService.get_hash_values(key)
+        next if count.nil? || is_counter_flushed_to_db.nil?
         if is_counter_flushed_to_db === 'false'
           records_to_update << { key: key, value: count }
           if records_to_update.size === UPDATE_BATCH_SIZE
@@ -34,9 +33,6 @@ class SynchronizeRedisWithDatabaseJob
             set_is_flushed_to_db(records_to_update)
             records_to_update = []
           end
-        end
-        if current_timestamp > expiration_date.to_i
-          RedisHandlerService.delete(key)
         end
       rescue Exception => e
         puts "An error occurred while processing key #{key}. #{e.message}"
