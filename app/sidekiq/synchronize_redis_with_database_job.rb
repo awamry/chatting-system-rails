@@ -49,7 +49,7 @@ class SynchronizeRedisWithDatabaseJob
     ActiveRecord::Base.transaction do
       records_to_update.each { |record|
         id = record[:key].split(":")[-1]
-        model.where(id: id).update_all("#{column_name}": record[:value])
+        model.where(id: id).update_all("#{column_name}": record[:value], updated_at: DateTime.now)
       }
     end
   end
