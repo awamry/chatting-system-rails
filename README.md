@@ -1,6 +1,5 @@
 <div id="top"></div>
 
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
 <h3 align="center">Chatting System</h3>
@@ -18,7 +17,6 @@
 
 
 
-<!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -40,8 +38,6 @@
 </details>
 
 
-
-<!-- ABOUT THE PROJECT -->
 
 ## About The Project
 
@@ -118,7 +114,6 @@ that has been created will only match if the query is between 3 (inclusive) to 1
 
 
 
-<!-- GETTING STARTED -->
 
 ## Getting Started
 
@@ -146,8 +141,6 @@ You need to have Docker (along with compose extension inside it) installed on yo
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
-<!-- USAGE EXAMPLES -->
 
 ## Usage Examples
 
@@ -209,12 +202,6 @@ You need to have Docker (along with compose extension inside it) installed on yo
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 
 [ROR]: https://img.shields.io/badge/rails-%23CC0000.svg?style=for-the-badge&logo=ruby-on-rails&logoColor=white
