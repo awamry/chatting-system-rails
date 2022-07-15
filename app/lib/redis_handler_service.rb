@@ -21,7 +21,7 @@ class RedisHandlerService
 
   def self.key_exists?(key)
     REDIS.with do |connection|
-      connection.exists?(key)
+      connection.exists(key) === 1
     end
   end
 
