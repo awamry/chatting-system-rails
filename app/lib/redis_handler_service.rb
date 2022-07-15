@@ -18,12 +18,6 @@ class RedisHandlerService
     end
   end
 
-  def self.key_exists?(key)
-    REDIS.with do |connection|
-      connection.exists(key) === 1
-    end
-  end
-
   def self.get_chat_number(application_id)
     increment("#{CHAT_NUMBER_KEY}:#{application_id}")
   end
@@ -40,9 +34,7 @@ class RedisHandlerService
 
   def self.decrement_chats_count(application_id)
     key = "#{CHATS_COUNT_KEY}:#{application_id}"
-    if key_exists?(key)
-      update_hash(key, -1)
-    end
+    update_hash(key, -1)
   end
 
   def self.increment_messages_count(chat_id)
@@ -53,9 +45,7 @@ class RedisHandlerService
 
   def self.decrement_messages_count(chat_id)
     key = "#{MESSAGES_COUNT_KEY}:#{chat_id}"
-    if key_exists?(key)
-      update_hash(key, -1)
-    end
+    update_hash(key, -1)
   end
 
   def self.update_hash(key, increment_value = 1)
@@ -81,7 +71,7 @@ class RedisHandlerService
 
   def self.set_is_flushed_to_db(key)
     REDIS.with do |connection|
-      connection.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'true') if key_exists?(key)
+      connection.hset(key, HASH_IS_FLUSHED_TO_DB_KEY, 'true')
     end
   end
 
