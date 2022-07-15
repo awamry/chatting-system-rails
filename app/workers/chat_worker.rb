@@ -10,7 +10,8 @@ class ChatWorker
       end
       RedisHandlerService.increment_chats_count(chat_json["application_id"])
       ack!
-    rescue
+    rescue Exception => e
+      puts "Error while persisting chat #{e.message}"
       FailedMessagesHandler.push_to_failed_queue(message, 'failed_chats')
     end
   end
