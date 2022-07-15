@@ -16,7 +16,7 @@ class ApplicationsController < ApplicationController
 
   # GET /applications/:token
   def show
-    json_response({name: @application.name, token: @application.token})
+    json_response(@application)
   end
 
   # PUT /applications/:token
