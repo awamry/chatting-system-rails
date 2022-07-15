@@ -50,6 +50,7 @@ test:
 #
 production:
   <<: *default
-  database: chatting_system_rails_production
-  username: chatting_system_rails
-  password: <%= ENV["CHATTING_SYSTEM_RAILS_DATABASE_PASSWORD"] %>
+  database: chatting_system
+  host: <%= ENV["MYSQL_HOST"] %>
+  username: root
+  password: <%= ENV["MYSQL_PASSWORD"] %>

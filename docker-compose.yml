@@ -1,0 +1,138 @@
+version: '3.9'
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+
+services:
+
+  mysql:
+    image: mysql:8
+    restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: chatting_system
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  rabbitmq:
+    image: rabbitmq:3.9-alpine
+    restart: always
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  elasticsearch:
+    image: elasticsearch:8.3.2
+    restart: always
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -s -f http://elasticsearch:9200/_cluster/health || exit 1" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+
+
+
+  backend:
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - ELASTICSEARCH_HOST=elasticsearch
+      - RAILS_LOG_TO_STDOUT=true
+      - MYSQL_HOST=mysql
+      - MYSQL_PASSWORD=root
+    command: bash -c "rm -f tmp/pids/server.pid && rails db:create && rails es:build_index && rails db:migrate && rails s -p 3000 -b '0.0.0.0'"
+
+
+
+  rabbitmq_workers:
+    build: .
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - MYSQL_HOST=mysql
+      - ELASTICSEARCH_HOST=elasticsearch
+      - MYSQL_PASSWORD=root
+
+    command: rails sneakers:run
+
+
+  redis_synchronization_with_db_job:
+    build: .
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - REDIS_DB=0
+      - MYSQL_HOST=mysql
+      - MYSQL_PASSWORD=root
+    command: sidekiq

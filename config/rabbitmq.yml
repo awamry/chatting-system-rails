@@ -4,7 +4,7 @@ development:
   db: 0
 production:
   host: <%= ENV.fetch("RABBITMQ_HOST") { 'rabbitmq' } %>
-  port: <%= ENV.fetch("REDIS_PORT") { 5672 } %>
+  port: <%= ENV.fetch("RABBITMQ_PORT") { 5672 } %>
 test:
   host: localhost
   port: 123
