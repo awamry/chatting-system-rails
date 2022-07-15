@@ -25,7 +25,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#technology-stack">Built With</a></li>
+        <li><a href="#technology-stack">Technology Stack</a></li>
       </ul>
     </li>
     <li>
@@ -35,7 +35,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#usage-examples">Usage Examples</a></li>
   </ol>
 </details>
 
