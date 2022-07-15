@@ -96,13 +96,23 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    stub_const("BUNNY", ConnectionPool.new { BunnyMock.new.start })
+    stub_const("BUNNY", ConnectionPool.new {
+      BunnyMock.use_bunny_queue_pop_api = true
+      BunnyMock.new.start })
   end
 
-  config.before :each do
+  config.before(:each) do
+    REDIS.with do |connection|
+      connection.keys("*").each do |key|
+        connection.del(key)
+      end
+    end
+  end
+
+  config.before(:each, elasticsearch: true) do
     stub_request(:any, /localhost:9200/)
       .to_return(body: { "version": { "number": "8.8.8" } }.to_json, status: 200,
-                 headers: { "Content-Type": "application/json", "x-elastic-product": "Elasticsearch" });
+                 headers: { "Content-Type": "application/json", "x-elastic-product": "Elasticsearch" })
   end
 
   config.include RequestSpecHelper, type: :request
