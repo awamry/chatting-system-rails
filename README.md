@@ -188,7 +188,7 @@ You need to have Docker (along with compose extension inside it) installed on yo
     curl --request GET 'http://localhost:3000/applications/YOUR_APPLICATION_TOKEN/chats/YOUR_CHAT_NUMBER/body/search?q=git'
    ```
    Please note that `q` is the query parameter that its value will be used to search for messages that partially contain this value.
-   in this example we are searching for messages that contain the keyword 'git' (yes, the search that has been implemented is case-insensitive)
+   in this example we are searching for messages that contain the keyword 'git' (yes, our search is case-insensitive)
 
    You will receive a response like this
     ```bash
