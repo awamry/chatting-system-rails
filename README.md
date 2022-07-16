@@ -183,14 +183,14 @@ You need to have Docker (along with compose extension inside it) installed on yo
     ```
    Make sure to save the value of "number" field as it is the chat number and you will need it in all of the upcoming requests related to messages
    <br><br>
-4. Create a new message under a specific chat number which belongs to a specific application
+4. Search through messages of a specific chat (partially)
    ```bash
-    curl --request GET 'http://localhost:3000/applications/YOUR_APPLICATION_TOKEN/chats/YOUR_CHAT_NUMBER/body/search?q=git'
+    curl --request GET 'http://localhost:3000/applications/YOUR_APPLICATION_TOKEN/chats/YOUR_CHAT_NUMBER/body/search?q=git&page=0&size=20'
    ```
-   Please note that `q` is the query parameter that its value will be used to search for messages that partially contain this value.
-   in this example we are searching for messages that contain the keyword 'git' (yes, our search is case-insensitive)
+   Please note that `q` is the query parameter that its value will be used to search for all messages that partially contain this value.
+   in this example we are searching for messages that contain the keyword 'git'
 
-   You will receive a response like this
+   You will receive a response like this (yes, our search is case-insensitive)
     ```bash
     [
      {

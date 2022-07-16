@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
 
   # GET /applications/:application_token/chats/:chat_number/messages/body/search
   def search_message_body
-    results = Message.search_message_body(params[:q], @chat.id)
+    results = Message.search_message_body(@chat.id, params[:q], params[:page] || 0, params[:size] || 20)
     render json: results, each_serializer: ElasticSearchMessageSerializer
   end
 

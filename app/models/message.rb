@@ -36,7 +36,7 @@ class Message < ApplicationRecord
     end
   end
 
-  def self.search_message_body(query, chat_id)
-    search({ query: { bool: { must: [{ match: { body: query } }, { match: { chat_id: chat_id } }] } } })
+  def self.search_message_body(chat_id, query, from, size)
+    search({ from: from, size: size, query: { bool: { must: [{ match: { body: query } }, { match: { chat_id: chat_id } }] } } })
   end
 end
