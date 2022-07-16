@@ -53,7 +53,7 @@ database.
 <b>For chats and messages creation</b>, it was required to avoid writing to MySQL directly while serving the client's request,
 but at the same time we need to respond to the client with the newly created chat's or message's number, which indeed, should be
 unique for all
-chats under the same application.
+chats/messages under the same application/chat.
 
 To achieve this requirement, Redis has been used as a datastore for chat/message numbers for each application/chat, so  
 when POST [/chats, /messages] API endpoint is called, we rely on Redis' superior speed to give us the next
