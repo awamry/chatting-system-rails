@@ -34,6 +34,7 @@
       </ul>
     </li>
     <li><a href="#usage-examples">Usage Examples</a></li>
+   <li><a href="#summary">Summary</a></li>
   </ol>
 </details>
 
@@ -97,7 +98,7 @@ through messages of a specific chat. It was required to support partial matching
 To achieve this requirement, ElasticSearch was an optimal fit for this scenario. The requirement was not too clear, so
 the API
 that has been created will only match if the query is between 3 (inclusive) to 10 characters (inclusive) in length
-(this is an index configuration, so it could be changed easily to match a greater range of characters but at the cost of index size)
+(this is an index configuration, so it could be changed depending on the requirements to match a greater range of characters but at the cost of index size)
 
 <br><br>
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -109,6 +110,7 @@ that has been created will only match if the query is between 3 (inclusive) to 1
 * [![Redis][Redis]][Redis-url]
 * [![RabbitMQ][RabbitMQ]][RabbitMQ-url]
 * [![ElasticSearch][ElasticSearch]][ElasticSearch-url]
+* [![Docker][Docker]][Docker-url]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -204,6 +206,21 @@ You need to have Docker (along with compose extension inside it) installed on yo
 
 
 
+## Summary
+
+This is just the tip of the iceberg. There were tons of challenges and issues that 
+were popping out while implementing the system that mandated changing the structure multiple times in order to achieve 
+the best possible solution. Nevertheless, there are still lots of improvement areas related to scalability and availability.
+
+I would be extremely happy if you contact me 
+to know more details about the challenges that I have faced 
+or my future plans to enhance the system.
+
+[![LinkedIn][LinkedIn]][LinkedIn-url]
+
+
+
+
 [ROR]: https://img.shields.io/badge/rails-%23CC0000.svg?style=for-the-badge&logo=ruby-on-rails&logoColor=white
 
 [ROR-url]: https://rubyonrails.org/
@@ -223,3 +240,9 @@ You need to have Docker (along with compose extension inside it) installed on yo
 [ElasticSearch]: https://img.shields.io/badge/-ElasticSearch-005571?style=for-the-badge&logo=elasticsearch
 
 [ElasticSearch-url]: https://www.elastic.co/
+
+[Docker]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/
+
+[LinkedIn]: https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white
+[LinkedIn-url]: https://www.linkedin.com/in/awamry/
