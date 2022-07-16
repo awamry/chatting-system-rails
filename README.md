@@ -8,7 +8,7 @@
     A highly scalable chatting system developed with low latency and high throughput in mind that allows creation of applications where each
     application gets a specified token that gets generated from the system. This token is the application identifier that allows
     creation of chats which returns the chat number that has been created under the specified application. By combining the application 
-    token with the chat number, you will be able to send messages to other members that are sharing the same chat with you
+    token with the chat number, you will be able to send messages to other members that are sharing the same chat with you.
     <br />
     <br />
     <br />
