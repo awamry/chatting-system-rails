@@ -208,7 +208,7 @@ You need to have Docker (along with compose extension inside it) installed on yo
 
 ## Summary
 
-This is just the tip of the iceberg. There were tons of challenges and issues that 
+This is just the tip of the iceberg. There were lots of challenges and issues that 
 were popping out while implementing the system that mandated changing the structure multiple times in order to achieve 
 the best possible solution. Nevertheless, there are still lots of improvement areas related to scalability and availability.
 
