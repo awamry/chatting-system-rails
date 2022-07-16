@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
     json_response(@chat.messages.paginate(page: params[:page], per_page: 20))
   end
 
-  # GET /applications/:application_token/chats/:chat_number/messages/body/search
+  # GET /applications/:application_token/chats/:chat_number/body/search
   def search_message_body
     results = Message.search_message_body(@chat.id, params[:q] || '', params[:page] || 0, params[:size] || 20)
     render json: results, each_serializer: ElasticSearchMessageSerializer
@@ -21,13 +21,15 @@ class MessagesController < ApplicationController
 
   # PUT /applications/:application_token/chats/:chat_number/messages/:number
   def update
+    validate_message_params
     @message.update(message_params)
     head :no_content
   end
 
   # POST /applications/:application_token/chats/:chat_number/messages
   def create
-    message_body = JSON.parse(request.raw_post)["body"]
+    validate_message_params
+    message_body = message_params[:body]
     message_number = RedisHandlerService.get_message_number(@chat.id)
     MessagePublisher.publish({ number: message_number, chat_id: @chat.id, body: message_body }.to_json)
     json_response({ number: message_number, body: message_body }, :created)
@@ -52,6 +54,10 @@ class MessagesController < ApplicationController
 
   def set_chat_message
     @message = @chat.messages.find_by!(number: params[:number]) if @chat
+  end
+
+  def validate_message_params
+    params.require(:body)
   end
 
   def message_params

@@ -72,7 +72,7 @@ RSpec.describe 'Messages API', elasticsearch: true, type: :request do
 
   # Test suite for POST /applications/:application_token/chats/:chat_number/messages
   describe 'POST /applications/:application_token/chats/:chat_number/messages' do
-    let(:valid_attributes) { {body: 'Message body'}.to_json }
+    let(:valid_attributes) { {body: 'Message body'} }
 
     context 'when request attributes are valid' do
       before { post "/applications/#{application_token}/chats/#{chat_number}/messages", params: valid_attributes }
@@ -108,6 +108,19 @@ RSpec.describe 'Messages API', elasticsearch: true, type: :request do
         REDIS.with do |connection|
           expect(connection.exists("message_number:#{chat.id}")).to be_truthy
           expect(connection.get("message_number:#{chat.id}")).to eq("1")
+        end
+      end
+
+      context 'when the request is invalid' do
+        before { post "/applications/#{application_token}/chats/#{chat_number}/messages", params: {} }
+
+        it 'should return status code 400' do
+          expect(response).to have_http_status(400)
+        end
+
+        it 'should return a validation failure message' do
+          expect(response.body)
+            .to match(/param is missing or the value is empty: body/)
         end
       end
     end
